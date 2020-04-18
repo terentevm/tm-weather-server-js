@@ -21,6 +21,10 @@ app.use(
 app.use(koaBody());
 app.use(serve("static"));
 
+router.get("/", async (ctx) => {
+    cts.response.status = 200;
+    ctx.body = 'weather api';
+});
 router.get("/api/autocomplete", autocomplete);
 router.get("/api/forecast", forecast);
 
