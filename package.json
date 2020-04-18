@@ -1,0 +1,29 @@
+{
+  "name": "tm-weather-server-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/terentevm/tm-weather-server-js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/terentevm/tm-weather-server-js/issues"
+  },
+  "homepage": "https://github.com/terentevm/tm-weather-server-js#readme",
+  "dependencies": {
+    "@koa/cors": "^3.0.0",
+    "dotenv": "^8.2.0",
+    "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
+    "koa-router": "^8.0.8",
+    "koa-static": "^5.0.0",
+    "koa2-cors": "^2.0.6"
+  }
+}
