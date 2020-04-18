@@ -8,7 +8,7 @@ dotenv.config();
 const autocomplete = require('./routes/autocomplete');
 const forecast = require("./routes/forecast");
 
-const PORT = process.env.port || 9000;
+const PORT = process.env.PORT || 9000;
 
 const app = new Koa();
 app.use(
