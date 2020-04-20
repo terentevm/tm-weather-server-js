@@ -1,4 +1,5 @@
 const Koa = require('koa');
+const Cache = require('./cache/Cache');
 const serve = require('koa-static');
 const koaBody = require("koa-body");
 const router = require("koa-router")();
@@ -11,6 +12,9 @@ const forecast = require("./routes/forecast");
 const PORT = process.env.PORT || 9000;
 
 const app = new Koa();
+
+app.cacheClient = new Cache(600);
+
 app.use(
 	cors({
 		origin: "*",
