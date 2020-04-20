@@ -73,11 +73,11 @@ async function transform(source) {
     };
 
     current.pressure_mm = Math.round(current.pressure * 0.750063755419211);
-    
+
     current.dateinfo = tsToLocal(current.dt, info.timeZone);
     current.day_duration = calcDayDuration(current.sunrise, current.sunset);
-    current.sunrise_hh_mm = tsToTime(current.sunrise);
-    current.sunset_hh_mm = tsToTime(current.sunset);
+    current.sunrise_hh_mm = tsToTime(current.sunrise, info.timeZone);
+    current.sunset_hh_mm = tsToTime(current.sunset, info.timeZone);
 
     current.condition = getFrontendConditionKey(current.weather[0].id);
 

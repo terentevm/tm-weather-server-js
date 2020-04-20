@@ -16,14 +16,14 @@ function tsToLocal(ts, timeZone) {
     }
 }
 
-function tsToTime(ts) {
+function tsToTime(ts, timeZone) {
 
-    return DateTime.fromSeconds(ts).toFormat('HH:MM');
+    return DateTime.fromSeconds(ts).setZone(timeZone).toFormat('HH:MM');
 
 }
 
 function calcDayDuration(sunrise, sunset) {
-    const dur_sec = sunset - sunrise
+    const dur_sec = sunset - sunrise;
     const dur_h = Math.floor(dur_sec / 3600);
 
     const minutes = Math.floor((dur_sec - (dur_h * 3600)) / 60);
