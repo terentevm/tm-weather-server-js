@@ -6,8 +6,10 @@ const router = require("koa-router")();
 const cors = require("koa2-cors");
 const dotenv = require("dotenv");
 dotenv.config();
+
 const autocomplete = require('./routes/autocomplete');
 const forecast = require("./routes/forecast");
+const current = require("./routes/current");
 
 const PORT = process.env.PORT || 9000;
 
@@ -31,6 +33,7 @@ router.get("/", async (ctx) => {
 });
 router.get("/api/autocomplete", autocomplete);
 router.get("/api/forecast", forecast);
+router.get("/api/current", current);
 
 app.use(router.routes());
 app.listen(PORT);
