@@ -3,7 +3,9 @@ const client = require('./common/client');
 
 module.exports = async function(ctx, next) {
     ctx.set("Content-Type", "application/json"); 
-    
+
+    console.dir(ctx.request.ips);
+
     const API_KEY = process.env.API_WEATHER_KEY;
     const api = 'api.weatherapi.com/v1/search.json';
 
