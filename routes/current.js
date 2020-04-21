@@ -7,7 +7,7 @@ module.exports = async function (ctx) {
     const {request, response } = ctx;
 
     const ip = 'x-forwarded-for' in request.headers
-                ? headers['x-forwarded-for']
+                ? request.headers['x-forwarded-for']
                 : DEFAULT_IP;
 
     const API_KEY = process.env.API_WEATHER_KEY;
