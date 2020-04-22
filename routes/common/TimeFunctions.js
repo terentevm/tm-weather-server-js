@@ -12,7 +12,8 @@ function tsToLocal(ts, timeZone) {
     return {
         date_iso:   d_utc.toISO(),
         date_local: d_utc.toFormat('dd-MM-yyyy'),
-        time_local: d_utc.toFormat('HH:MM')
+        time_local: d_utc.toFormat('HH:MM'),
+        offset:     d_utc.offset
     }
 }
 

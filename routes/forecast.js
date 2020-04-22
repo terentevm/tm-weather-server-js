@@ -3,9 +3,6 @@ const tsToLocal = require('./common/TimeFunctions').tsToLocal;
 const calcDayDuration = require('./common/TimeFunctions').calcDayDuration;
 const tsToTime = require('./common/TimeFunctions').tsToTime;
 
-const fs = require('fs');
-const path = require('path');
-
 const weatherCondMap = new Map;
 
 weatherCondMap.set(500, "partly-cloudy-and-light-rain");
@@ -56,9 +53,8 @@ function getFrontendConditionKey(weatherId) {
         return 'tornado';
     }
 
-    let cond = weatherCondMap.get(weatherId);
+    return weatherCondMap.get(weatherId);
 
-    return cond;
 }
 
 async function transform(source) {
@@ -80,15 +76,13 @@ async function transform(source) {
     current.sunset_hh_mm = tsToTime(current.sunset, info.timeZone);
 
     current.condition = getFrontendConditionKey(current.weather[0].id);
+    current.day_part = current.weather[0].icon.slice(-1);
 
-    const result = {
+    return {
         info: info,
         current: current,
-        daily: daily
-    }
-
-    return result;
-
+        daily: daily,
+    };
 }
 
 module.exports = async (ctx) => {
@@ -100,13 +94,13 @@ module.exports = async (ctx) => {
 
     const redis_key = `fo_${lat}_${lon}`;
 
-    const cachedVal = await ctx.app.cacheClient.getVal(redis_key);
-
-    if (cachedVal) {
-        ctx.response.status = 200;
-        ctx.body = cachedVal;
-        return;
-    }
+    // const cachedVal = await ctx.app.cacheClient.getVal(redis_key);
+    //
+    // if (cachedVal) {
+    //     ctx.response.status = 200;
+    //     ctx.body = cachedVal;
+    //     return;
+    // }
 
     try {
         const result = await client(
@@ -122,25 +116,18 @@ module.exports = async (ctx) => {
 
         ctx.response.status = result.statusCode;
 
-        const res_o = await transform(result.body);
-        ctx.body = JSON.stringify(res_o);
+        if (result.statusCode === 200) {
 
-        await ctx.app.cacheClient.setVal(redis_key, ctx.body);
+            ctx.body = JSON.stringify(await transform(result.body));
+
+            await ctx.app.cacheClient.setVal(redis_key, ctx.body);
+        }
+        else {
+            ctx.body = result.body;
+        }
 
     } catch (e) {
         ctx.response.status = 500;
         ctx.body = e.message;
-        return;
     }
-
-
-    // const fakeData = fs.readFileSync(path.resolve(__dirname, 'fake.json'));
-    //
-    // const result = {
-    //     statusCode: 200,
-    //     body: fakeData
-    // }
-
-
-
 }
