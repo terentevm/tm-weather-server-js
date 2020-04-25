@@ -25,7 +25,10 @@ app.use(
 	})
 );
 app.use(koaBody());
-app.use(serve("static"));
+app.use(serve("."));
+app.use(serve("./static/css"));
+app.use(serve(__dirname + "/static/js"));
+app.use(serve("static/media"));
 
 router.get("/", async (ctx) => {
     ctx.response.status = 200;
