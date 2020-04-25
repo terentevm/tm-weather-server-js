@@ -8,7 +8,6 @@ module.exports = async function(ctx, next) {
     console.dir(ctx.request.headers);
 
     const API_KEY = process.env.API_WEATHER_KEY;
-    const api = 'api.weatherapi.com/v1/search.json';
 
     const search = ctx.request.query.q;
     

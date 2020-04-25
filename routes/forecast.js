@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const client = require("./common/client");
 const tsToLocal = require('./common/TimeFunctions').tsToLocal;
 const calcDayDuration = require('./common/TimeFunctions').calcDayDuration;
@@ -57,10 +59,31 @@ function getFrontendConditionKey(weatherId) {
 
 }
 
+function transformDailyForecast(source) {
+    const { temp, feels_like} = source;
+
+    source.morning = {temp: temp.morn, feels_like: feels_like.morn};
+    source.day = {temp: temp.day, feels_like: feels_like.day};
+    source.evening = {temp: temp.eve, feels_like: feels_like.eve};
+    source.night = {temp: temp.night, feels_like: feels_like.night};
+
+    source.temp_min = temp.min;
+    source.temp_max = temp.max;
+    source.condition = getFrontendConditionKey(source.weather[0].id);
+    source.pressure_mm = Math.round(source.pressure * 0.750063755419211);
+
+    return source;
+}
+
+function transformHourlyForecast(hourData, info) {
+    hourData.dateinfo = tsToLocal(hourData.dt, info.timeZone);
+    return hourData;
+}
+
 async function transform(source) {
     const data = JSON.parse(source);
 
-    const { current, daily  } = data;
+    const { current, daily, hourly  } = data;
 
     const info = {
         lat: data.lat,
@@ -78,10 +101,32 @@ async function transform(source) {
     current.condition = getFrontendConditionKey(current.weather[0].id);
     current.day_part = current.weather[0].icon.slice(-1);
 
+    const dailyModified = daily.map((day) => transformDailyForecast(day));
+    const hourlyModified = hourly.map((hourData) => transformHourlyForecast(hourData, info));
+
+    let cnt = 0;
+
+    current.hourly = hourlyModified.filter((hourData) => {
+       let match = hourData.dt > current.dt && cnt < 12;
+
+        if (match === true) {
+            cnt ++;
+        }
+
+        return match;
+    }).map((hourData) => {
+        return {
+            hour: hourData.dateinfo.hNum,
+            temp: hourData.temp,
+            cond: getFrontendConditionKey(hourData.weather[0].id)
+        }
+    });
+
     return {
         info: info,
         current: current,
-        daily: daily,
+        daily: dailyModified,
+        hourly: hourlyModified
     };
 }
 
@@ -94,13 +139,21 @@ module.exports = async (ctx) => {
 
     const redis_key = `fo_${lat}_${lon}`;
 
-    // const cachedVal = await ctx.app.cacheClient.getVal(redis_key);
-    //
-    // if (cachedVal) {
-    //     ctx.response.status = 200;
-    //     ctx.body = cachedVal;
-    //     return;
-    // }
+    const cachedVal = await ctx.app.cacheClient.getVal(redis_key);
+
+    if (cachedVal) {
+        ctx.response.status = 200;
+        ctx.body = cachedVal;
+        return;
+    }
+
+    if (process.env.NODE_ENV === "development") {
+        ctx.response.status = 200;
+        let fakeData = fs.readFileSync(path.resolve(__dirname, 'fake.json'));
+		ctx.body = JSON.stringify(await transform(fakeData));
+        return;
+
+    }
 
     try {
         const result = await client(

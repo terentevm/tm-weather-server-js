@@ -1,4 +1,5 @@
-const { DateTime } = require("luxon");
+
+const moment = require('moment-timezone');
 
 /* @description Transforms unix timestamp to object with date info in local format
 * @param {int} ts
@@ -7,31 +8,33 @@ const { DateTime } = require("luxon");
  */
 function tsToLocal(ts, timeZone) {
 
-    const d_utc = DateTime.fromSeconds(ts).setZone(timeZone);
+    const dateLocal = moment.tz(ts * 1000, timeZone);
 
     return {
-        date_iso:   d_utc.toISO(),
-        date_local: d_utc.toFormat('dd-MM-yyyy'),
-        time_local: d_utc.toFormat('HH:MM'),
-        offset:     d_utc.offset
+        date_iso:   dateLocal.format(),
+        date_local: dateLocal.format('dd-MM-yyyy'),
+        time_local: dateLocal.format('HH:MM'),
+        offset:     dateLocal.utcOffset(),
+        hours: dateLocal.format('HH'),
+        minutes: dateLocal.format('MM'),
+        hNum: dateLocal.hour()
     }
 }
 
 function tsToTime(ts, timeZone) {
-
-    return DateTime.fromSeconds(ts).setZone(timeZone).toFormat('HH:MM');
+    return moment.tz(ts * 1000, timeZone).format('HH:MM');
 
 }
 
 function calcDayDuration(sunrise, sunset) {
+
     const dur_sec = sunset - sunrise;
+
     const dur_h = Math.floor(dur_sec / 3600);
 
-    const minutes = Math.floor((dur_sec - (dur_h * 3600)) / 60);
-
     return {
-        h: dur_h,
-        m: minutes
+        h: Math.floor(dur_sec / 3600),
+        m: Math.floor((dur_sec - (dur_h * 3600)) / 60)
     }
 
 }

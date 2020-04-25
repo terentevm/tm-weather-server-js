@@ -15,7 +15,7 @@ module.exports = async function (ctx) {
     const cachedVal = await ctx.app.cacheClient.getVal(`c_${ip}`);
 
     if (cachedVal) {
-        ctx.response.status = 200;
+        response.status = 200;
         ctx.body = cachedVal;
         return;
     }

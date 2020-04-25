@@ -38,4 +38,6 @@ router.get("/api/current", current);
 app.use(router.routes());
 app.listen(PORT);
 
-console.log(`App is running on port^ ${PORT}`);
+console.log(`App is running on port: ${PORT}`);
+
+console.log(`Mode: ${process.env.NODE_ENV}`);
