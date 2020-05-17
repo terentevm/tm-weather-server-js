@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4f6daa58dac6b93d9b1110b6a9924323",
+    "revision": "23dec5a7712d9b62f645f7c074b14a5e",
     "url": "/index.html"
   },
   {
-    "revision": "28f988d2a48ac25af276",
-    "url": "/static/css/main.261fa6d4.chunk.css"
+    "revision": "d79eee542c8ff1a98518",
+    "url": "/static/css/main.58086777.chunk.css"
   },
   {
-    "revision": "7b82d29dc3d85155f000",
-    "url": "/static/js/2.b1792fb2.chunk.js"
+    "revision": "4284b9b2115dfc38dd65",
+    "url": "/static/js/2.1fd289c0.chunk.js"
   },
   {
-    "revision": "84a2a7a390df1ac99fa4fadf23155e60",
-    "url": "/static/js/2.b1792fb2.chunk.js.LICENSE"
+    "revision": "87984cad984dae3222b2a1d0861003a4",
+    "url": "/static/js/2.1fd289c0.chunk.js.LICENSE"
   },
   {
-    "revision": "28f988d2a48ac25af276",
-    "url": "/static/js/main.977168bd.chunk.js"
+    "revision": "d79eee542c8ff1a98518",
+    "url": "/static/js/main.cf78a92b.chunk.js"
   },
   {
     "revision": "4a5fd2563688e4378ea6",
@@ -60,6 +60,14 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/cloudy_night.96699d5c.webp"
   },
   {
+    "revision": "1d4cf2eb9001b6bf8dd999e04f541b3f",
+    "url": "/static/media/cs.1d4cf2eb.svg"
+  },
+  {
+    "revision": "d8277b2a94c5ddee377bf030ac800662",
+    "url": "/static/media/de.d8277b2a.svg"
+  },
+  {
     "revision": "6c4a03a5de921b805dd8754acfb15e3e",
     "url": "/static/media/haze.6c4a03a5.svg"
   },
@@ -74,10 +82,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "daf7b8c2d501f2457b43ef3655563a89",
     "url": "/static/media/light_rain_night.daf7b8c2.webp"
-  },
-  {
-    "revision": "cfb1e955a2bc8de4cda78aca20d0a996",
-    "url": "/static/media/logo.cfb1e955.svg"
   },
   {
     "revision": "5039864cceefa1c9cf8f8a3aebbbd405",
@@ -138,6 +142,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "ab3bfa2484862f0eb9d8efba7d9f7df7",
     "url": "/static/media/rain_snow.ab3bfa24.webp"
+  },
+  {
+    "revision": "58ba14899e7b82e952a630fb6ddd3da3",
+    "url": "/static/media/ru.58ba1489.svg"
   },
   {
     "revision": "84a2ffdcaeef2a39a5edba5e0df49f17",
