@@ -1,6 +1,6 @@
 const Koa = require('koa');
 const Cache = require('./cache/Cache');
-const serve = require('koa-static');
+const serve = require('koa-static-server')
 const koaBody = require("koa-body");
 const router = require("koa-router")();
 const cors = require("koa2-cors");
@@ -25,15 +25,16 @@ app.use(
 	})
 );
 app.use(koaBody());
-app.use(serve("."));
-app.use(serve("./static/css"));
-app.use(serve(__dirname + "/static/js"));
-app.use(serve("static/media"));
+//app.use(serve("."));
+app.use(serve({rootDir: './static', rootPath: '/'}));
+// app.use(serve(__dirname + "/static/css"));
+// app.use(serve(__dirname + "/static/js"));
+// app.use(serve("static/media"));
 
-router.get("/", async (ctx) => {
-    ctx.response.status = 200;
-    ctx.body = 'weather api';
-});
+// router.get("/", async (ctx) => {
+//     ctx.response.status = 200;
+//     ctx.body = 'weather api';
+// });
 router.get("/api/autocomplete", autocomplete);
 router.get("/api/forecast", forecast);
 router.get("/api/current", current);
