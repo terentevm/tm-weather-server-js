@@ -26,7 +26,7 @@ app.use(
 );
 app.use(koaBody());
 //app.use(serve("."));
-app.use(serve('./static'));
+app.use(serve('./static', {gzip:true}));
 // app.use(serve(__dirname + "/static/css"));
 // app.use(serve(__dirname + "/static/js"));
 // app.use(serve("static/media"));
