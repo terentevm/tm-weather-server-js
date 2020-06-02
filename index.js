@@ -1,6 +1,7 @@
 const Koa = require('koa');
 const Cache = require('./cache/Cache');
 const serve = require('koa-static');
+const compress = require('koa-compress');
 const koaBody = require("koa-body");
 const router = require("koa-router")();
 const cors = require("koa2-cors");
@@ -17,6 +18,15 @@ const app = new Koa();
 
 app.cacheClient = new Cache(600);
 
+app.use(compress({
+  filter (content_type) {
+
+    const compressable = /application\/json/i.test(content_type) || /image\/svg+xml/i.test(content_type);
+    console.log(`${content_type} : ${compressable}`);
+    return compressable;
+  }
+}));
+
 app.use(
 	cors({
 		origin: "*",
@@ -25,11 +35,10 @@ app.use(
 	})
 );
 app.use(koaBody());
-//app.use(serve("."));
+
 app.use(serve('./static', {gzip:true}));
-// app.use(serve(__dirname + "/static/css"));
-// app.use(serve(__dirname + "/static/js"));
-// app.use(serve("static/media"));
+
+
 
 router.get("/", async (ctx) => {
     ctx.response.status = 200;
