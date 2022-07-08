@@ -30,7 +30,7 @@
     "koa-static-server": "^1.5.2",
     "koa2-cors": "^2.0.6",
     "luxon": "^1.23.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "moment-timezone": "^0.5.28",
     "redis": "^3.0.2"
   }
