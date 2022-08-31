@@ -31,7 +31,7 @@
     "koa2-cors": "^2.0.6",
     "luxon": "^1.23.0",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.28",
+    "moment-timezone": "^0.5.35",
     "redis": "^3.0.2"
   }
 }
